@@ -1,0 +1,36 @@
+function isPrime(num) {
+    if (num <= 1) return false;
+    for (let i = 2; i * i <= num; i++) {
+        if (num % i === 0) return false;
+    }
+    return true;
+}
+
+function sortArraySpecial(arr) {
+    const primes = [];
+    const nonPrimes = [];
+    arr.forEach(num => {
+        if (isPrime(num)) {
+            primes.push(num);
+        } else {
+            nonPrimes.push(num);
+        }
+    });
+
+    if (primes.length === 0) {
+        return nonPrimes.sort((a, b) => b - a);
+    }
+
+    const largestPrime = Math.max(...primes);
+    const smallestPrime = Math.min(...primes);
+
+    primes.splice(primes.indexOf(largestPrime), 1);
+    primes.splice(primes.indexOf(smallestPrime), 1);
+
+    nonPrimes.sort((a, b) => b - a);
+    primes.sort((a, b) => b - a);
+    return [largestPrime, ...nonPrimes, ...primes, smallestPrime];
+}
+
+console.log(sortArraySpecial([5, 1, 8, 11, 2])); 
+console.log(sortArraySpecial([1, 6, 4, 13, 9, 3]));  
